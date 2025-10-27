@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Button from './Button';
 
 /**
  * Custom hook for managing tasks with localStorage persistence
@@ -71,48 +70,60 @@ const TaskManager = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div className="w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h2 className="text-2xl font-bold mb-6">Task Manager</h2>
 
       {/* Task input form */}
-      <form onSubmit={handleSubmit} className="mb-6">
+      <form onSubmit={handleSubmit} className="mb-4">
         <div className="flex gap-2">
           <input
             type="text"
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
             placeholder="Add a new task..."
-            className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
+            className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600"
           />
-          <Button type="submit" variant="primary">
-            Add Task
-          </Button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Add
+          </button>
         </div>
       </form>
 
       {/* Filter buttons */}
       <div className="flex gap-2 mb-4">
-        <Button
-          variant={filter === 'all' ? 'primary' : 'secondary'}
-          size="sm"
+        <button
+          className={`px-4 py-2 rounded ${
+            filter === 'all'
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-200 dark:bg-gray-700'
+          }`}
           onClick={() => setFilter('all')}
         >
           All
-        </Button>
-        <Button
-          variant={filter === 'active' ? 'primary' : 'secondary'}
-          size="sm"
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${
+            filter === 'active'
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-200 dark:bg-gray-700'
+          }`}
           onClick={() => setFilter('active')}
         >
           Active
-        </Button>
-        <Button
-          variant={filter === 'completed' ? 'primary' : 'secondary'}
-          size="sm"
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${
+            filter === 'completed'
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-200 dark:bg-gray-700'
+          }`}
           onClick={() => setFilter('completed')}
         >
           Completed
-        </Button>
+        </button>
       </div>
 
       {/* Task list */}
@@ -125,44 +136,29 @@ const TaskManager = () => {
           filteredTasks.map((task) => (
             <li
               key={task.id}
-              className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700"
+              className="flex items-center gap-2 p-2 border rounded"
             >
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => toggleTask(task.id)}
-                  className="h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
-                />
-                <span
-                  className={`${
-                    task.completed ? 'line-through text-gray-500 dark:text-gray-400' : ''
-                  }`}
-                >
-                  {task.text}
-                </span>
-              </div>
-              <Button
-                variant="danger"
-                size="sm"
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleTask(task.id)}
+                className="h-4 w-4"
+              />
+              <span className={task.completed ? 'line-through' : ''}>
+                {task.text}
+              </span>
+              <button
                 onClick={() => deleteTask(task.id)}
-                aria-label="Delete task"
+                className="ml-auto px-2 py-1 text-red-500 hover:text-red-700"
               >
                 Delete
-              </Button>
+              </button>
             </li>
           ))
         )}
       </ul>
-
-      {/* Task stats */}
-      <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-        <p>
-          {tasks.filter((task) => !task.completed).length} tasks remaining
-        </p>
-      </div>
     </div>
   );
 };
 
-export default TaskManager; 
+export default TaskManager;
